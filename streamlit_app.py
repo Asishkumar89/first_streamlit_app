@@ -29,7 +29,7 @@ try:
     # Show in df
     sl.dataframe(fruityvice_normalized)
 except URLError as e:
-  sl.error(e)
+  sl.error()
   
 #dont run anything past here till we debug
 sl.stop()
