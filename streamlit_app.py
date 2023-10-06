@@ -11,6 +11,13 @@ sl.text('🐔 Hard-Boiled Free Range Egg')
 sl.text('🥑🍞 Avocado toast')
 sl.header('🍌🥭 Build Your Own Fruit Smoothie 🥝🍇')
 
+def get_fruityvice_data():
+  fruityvice_response = requests.get("https://fruityvice.com/api/fruit/"+fruit_choice)
+  # This will give it in array 
+  fruityvice_normalized = pd.json_normalize(fruityvice_response.json())
+  # Show in df
+  return fruityvice_normalized
+
 my_fruit_list = pd.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt")
 my_fruit_list = my_fruit_list.set_index('Fruit')
 # Let's put a pick list here so they can pick the fruit they want to include 
@@ -23,11 +30,8 @@ try:
   if not fruit_choice:
     sl.error("Please select a fruit to get information.")
   else:
-    fruityvice_response = requests.get("https://fruityvice.com/api/fruit/"+fruit_choice)
-    # This will give it in array 
-    fruityvice_normalized = pd.json_normalize(fruityvice_response.json())
-    # Show in df
-    sl.dataframe(fruityvice_normalized)
+    back_from_function = get_fruityvice_data(fruit_choice)
+    sl.dataframe(back_from_function)
 except URLError as e:
   sl.error()
   
