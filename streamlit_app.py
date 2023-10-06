@@ -11,8 +11,8 @@ sl.text('🐔 Hard-Boiled Free Range Egg')
 sl.text('🥑🍞 Avocado toast')
 sl.header('🍌🥭 Build Your Own Fruit Smoothie 🥝🍇')
 
-def get_fruityvice_data():
-  fruityvice_response = requests.get("https://fruityvice.com/api/fruit/"+fruit_choice)
+def get_fruityvice_data(this_fruit_choice):
+  fruityvice_response = requests.get("https://fruityvice.com/api/fruit/"+this_fruit_choice)
   # This will give it in array 
   fruityvice_normalized = pd.json_normalize(fruityvice_response.json())
   # Show in df
