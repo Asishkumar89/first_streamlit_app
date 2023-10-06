@@ -18,13 +18,19 @@ fruits_selected = sl.multiselect("Pick some fruits:", list (my_fruit_list.index)
 fruits_to_show = my_fruit_list.loc[fruits_selected]
 
 sl.header('Fruityvice Fruit Advice')
-fruit_choice = sl.text_input('What fruit would you like information about?','Kiwi')
-sl.write('The user entered ', fruit_choice)
-fruityvice_response = requests.get("https://fruityvice.com/api/fruit/"+fruit_choice)
-# This will give it in array 
-fruityvice_normalized = pd.json_normalize(fruityvice_response.json())
-# Show in df
-sl.dataframe(fruityvice_normalized)
+try:
+  fruit_choice = sl.text_input('What fruit would you like information about?')
+  if not fruit_choice:
+    sl.error("Please select a fruit to get information.")
+  else:
+    fruityvice_response = requests.get("https://fruityvice.com/api/fruit/"+fruit_choice)
+    # This will give it in array 
+    fruityvice_normalized = pd.json_normalize(fruityvice_response.json())
+    # Show in df
+    sl.dataframe(fruityvice_normalized)
+except URLError as e:
+  sl.error(e)
+  
 #dont run anything past here till we debug
 sl.stop()
 my_cnx = snowflake.connector.connect(**sl.secrets["snowflake"])
