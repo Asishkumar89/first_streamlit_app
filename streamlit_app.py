@@ -35,16 +35,17 @@ try:
 except URLError as e:
   sl.error()
   
-sl.header("The fruit load list contains:")
+sl.header("View Our Fruit List - Add Your Favourites")
 def get_fruit_load_list():
   with my_cnx.cursor() as my_cur:
     my_cur.execute("SELECT * FROM pc_rivery_db.public.fruit_load_list")
     return my_cur.fetchall()
 
-if sl.button('Get Fruit Load List'):
+if sl.button('Get Fruit List'):
   my_cnx = snowflake.connector.connect(**sl.secrets["snowflake"])
   my_data_rows = get_fruit_load_list()
   sl.dataframe(my_data_rows)
+  my_cnx.close()
 
 def insert_row_snowflake(new_fruit):
   with my_cnx.cursor() as my_cur:
@@ -57,6 +58,7 @@ if sl.button('Add a fruit to the list'):
   my_cnx = snowflake.connector.connect(**sl.secrets["snowflake"])
   back_from_function = insert_row_snowflake(add_my_fruit)
   sl.text(back_from_function)
+  my_cnx.close()
 
 
 
