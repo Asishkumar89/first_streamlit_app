@@ -17,3 +17,8 @@ sl.dataframe(fruits_to_show)
 sl.header('Fruityvice Fruit Advice')
 fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon")
 sl.text(fruityvice_response.json())
+
+# This will give it in array 
+fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
+# Show in df
+sl.dataframe(fruityvice_normalized)
